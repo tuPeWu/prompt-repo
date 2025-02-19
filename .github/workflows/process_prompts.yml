@@ -29,6 +29,11 @@ jobs:
       - name: Pobranie danych NLTK
         run: python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
 
+      - name: Sprawdzenie zawartości raw_prompts
+        run: |
+          echo "Pliki w raw_prompts:"
+          ls -la raw_prompts/
+
       - name: Uruchomienie skryptu
         run: python process_prompts.py
 
