@@ -18,6 +18,9 @@ KEYWORDS = ["AI", "machine learning", "UX", "NLP", "hermeneutics", "philosophy",
 RAW_PROMPTS_DIR = "raw_prompts/"
 PROCESSED_PROMPTS_DIR = "prompts/"
 
+# Stała wartość dla autora promptu
+AUTHOR = "Paweł Wolski"
+
 def extract_keywords(prompt_text):
     """Analizuje treść promptu i wybiera tagi na podstawie słów kluczowych."""
     words = re.findall(r'\b\w+\b', prompt_text.lower())  # Tokenizacja
@@ -49,16 +52,34 @@ def process_prompts():
         filepath = os.path.join(RAW_PROMPTS_DIR, filename)
 
         with open(filepath, "r", encoding="utf-8") as file:
-            prompt_text = file.read().strip()
+            lines = file.readlines()
+
+        if len(lines) < 2:
+            print(f"Pominięto plik {filename}, ponieważ nie zawiera wymaganych danych (model AI + prompt).")
+            continue
+
+        # Pierwsza linia: Model AI
+        model_ai = lines[0].strip()
+        # Pozostała część pliku: Treść promptu
+        prompt_text = "".join(lines[1:]).strip()
 
         if not prompt_text:
             print(f"Pominięto pusty plik: {filename}")
             continue
 
-        title = " ".join(prompt_text.split()[:5]) + "..."  # Pierwsze 5 słów jako tytuł
+        # Tytuł: pierwsze 5 słów promptu
+        title = " ".join(prompt_text.split()[:5]) + "..."
+
+        # Data utworzenia
         date_created = datetime.datetime.now().strftime("%d.%m.%Y")
+
+        # Generowanie tagów
         tags = extract_keywords(prompt_text)
+
+        # Generowanie nazwy pliku
         file_name = generate_filename()
+
+        # Link do repozytorium
         repo_link = f"https://github.com/tuPeWu/prompt-repo/blob/main/prompts/{file_name}"
 
         # Tworzenie katalogu prompts/, jeśli nie istnieje
@@ -67,11 +88,13 @@ def process_prompts():
         # Tworzenie nowego pliku w katalogu prompts/
         new_filepath = os.path.join(PROCESSED_PROMPTS_DIR, file_name)
         with open(new_filepath, "w", encoding="utf-8") as new_file:
-            new_file.write(f"Tytuł: {title}\n")
+            new_file.write(f"Autor promptu: {AUTHOR}\n")
+            new_file.write(f"Model AI: {model_ai}\n")
+            new_file.write(f"Krótki tytuł: {title}\n")
             new_file.write(f"Pełna treść: {prompt_text}\n")
             new_file.write(f"Data utworzenia: {date_created}\n")
             new_file.write(f"Tagi: {tags}\n")
-            new_file.write(f"Link do repozytorium: {repo_link}\n")
+            new_file.write(f"Link do repozytorium GitHub: {repo_link}\n")
 
         # Usunięcie przetworzonego pliku
         os.remove(filepath)
