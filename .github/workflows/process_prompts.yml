@@ -45,7 +45,10 @@ jobs:
           git config --local user.email "actions@github.com"
           git add prompts/
           git commit -m "Automatycznie dodane prompty" || echo "Brak zmian do commitowania"
-          git pull --rebase
+           # Schowanie niezapisanych zmian, jeśli istnieją
+          git stash || echo "Brak zmian do schowania"
+          git pull --rebase || echo "Błąd podczas rebase, kontynuuję..."
+          git stash pop || echo "Brak zmian do odtworzenia"
           git push --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
