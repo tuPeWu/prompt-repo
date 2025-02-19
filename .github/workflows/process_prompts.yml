@@ -38,8 +38,9 @@ jobs:
           git config --local user.email "actions@github.com"
           git add prompts/
           git commit -m "Automatycznie dodane prompty" || echo "Brak zmian do commitowania"
-          git pull --rebase --autostash || echo "Rozwiązano konflikty rebase"
+          git rebase --abort || echo "Nie było rebase do przerwania"
+          git reset --hard origin/main
+          git pull --force
           git push --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
