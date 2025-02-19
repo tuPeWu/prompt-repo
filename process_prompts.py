@@ -2,11 +2,14 @@ import os
 import datetime
 import hashlib
 import re
+import random
 import nltk
 from nltk.corpus import stopwords
 
-# Pobierz listę stopwords (opcjonalnie: pierwsze uruchomienie wymaga pobrania)
-nltk.download('stopwords')
+# Pobranie wymaganych zasobów NLTK
+def download_nltk_resources():
+    nltk.download('stopwords')
+    nltk.download('punkt')
 
 # Kluczowe słowa dla tagowania
 KEYWORDS = ["AI", "machine learning", "UX", "NLP", "hermeneutics", "philosophy", "automation", "cognition"]
@@ -20,7 +23,7 @@ def extract_keywords(prompt_text):
     words = re.findall(r'\b\w+\b', prompt_text.lower())  # Tokenizacja
     keywords_found = {word.capitalize() for word in words if word in KEYWORDS}
     
-    # Jeśli znaleziono mniej niż 3, dodaj losowe z predefiniowanej listy
+    # Jeśli znaleziono mniej niż 3 tagi, dodaj losowe
     while len(keywords_found) < 3:
         keywords_found.add(random.choice(KEYWORDS))
 
@@ -34,6 +37,14 @@ def generate_filename():
 
 def process_prompts():
     """Przetwarza pliki w katalogu raw_prompts/"""
+    if not os.path.exists(RAW_PROMPTS_DIR):
+        print("Katalog raw_prompts nie istnieje.")
+        return
+
+    if not os.listdir(RAW_PROMPTS_DIR):
+        print("Brak plików do przetworzenia.")
+        return
+
     for filename in os.listdir(RAW_PROMPTS_DIR):
         filepath = os.path.join(RAW_PROMPTS_DIR, filename)
 
@@ -41,6 +52,7 @@ def process_prompts():
             prompt_text = file.read().strip()
 
         if not prompt_text:
+            print(f"Pominięto pusty plik: {filename}")
             continue
 
         title = " ".join(prompt_text.split()[:5]) + "..."  # Pierwsze 5 słów jako tytuł
@@ -48,6 +60,9 @@ def process_prompts():
         tags = extract_keywords(prompt_text)
         file_name = generate_filename()
         repo_link = f"https://github.com/tuPeWu/prompt-repo/blob/main/prompts/{file_name}"
+
+        # Tworzenie katalogu prompts/, jeśli nie istnieje
+        os.makedirs(PROCESSED_PROMPTS_DIR, exist_ok=True)
 
         # Tworzenie nowego pliku w katalogu prompts/
         new_filepath = os.path.join(PROCESSED_PROMPTS_DIR, file_name)
@@ -60,6 +75,8 @@ def process_prompts():
 
         # Usunięcie przetworzonego pliku
         os.remove(filepath)
+        print(f"Przetworzono: {filename} → {new_filepath}")
 
 if __name__ == "__main__":
+    download_nltk_resources()
     process_prompts()
