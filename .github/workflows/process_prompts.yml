@@ -1,0 +1,41 @@
+name: Process Prompts
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 * * * *"  # Uruchamianie co godzinę
+  workflow_dispatch:
+
+jobs:
+  process-prompts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pobranie repozytorium
+        uses: actions/checkout@v3
+
+      - name: Instalacja Pythona
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instalacja wymaganych pakietów
+        run: |
+          pip install --upgrade pip
+          pip install nltk
+
+      - name: Pobranie danych NLTK
+        run: python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
+
+      - name: Uruchomienie skryptu
+        run: python process_prompts.py
+
+      - name: Commit zmian
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git add prompts/
+          git commit -m "Automatycznie dodane prompty" || exit 0
+          git push
