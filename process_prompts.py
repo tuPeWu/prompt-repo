@@ -1,49 +1,20 @@
 import os
 import datetime
-import uuid  # Dodajemy do generowania unikalnych nazw
+import uuid
 import re
-import random
 import nltk
+from collections import Counter
+from nltk import word_tokenize, pos_tag
 from nltk.corpus import stopwords
+import string
 
 # Pobranie wymaganych zasobów NLTK
 def download_nltk_resources():
-    nltk.download('stopwords')
     nltk.download('punkt')
+    nltk.download('averaged_perceptron_tagger')
+    nltk.download('stopwords')
 
-# Rozszerzona lista słów kluczowych dla tagowania
-KEYWORDS = set([
-    "AI", "machine learning", "UX", "NLP", "hermeneutics", "philosophy", "automation", "cognition",
-    "badania UX", "użyteczność", "doświadczenie użytkownika", "projektowanie skoncentrowane na człowieku",
-    "projektowanie skoncentrowane na użytkowniku", "heurystyki", "tworzenie szkieletów stron (wireframing)",
-    "prototypowanie", "architektura informacji", "obciążenie poznawcze", "przystępność (affordance)",
-    "modele mentalne", "persony", "dostępność", "projektowanie inkluzywne", "projektowanie emocjonalne",
-    "śledzenie ruchu gałek ocznych", "testowanie użyteczności", "ewaluacja heurystyczna", "ciągłe badania",
-    "sortowanie kart", "testy A/B", "badania jakościowe", "badania ilościowe", "etnografia", "grupy fokusowe",
-    "ścieżka klienta", "punkty styku", "projektowanie usług", "projektowanie iteracyjne", "projektowanie partycypacyjne",
-    "wzorce zachowań", "projektowanie interakcji", "prawo Fittsa", "prawo Hicka", "błędy poznawcze",
-    "zmęczenie decyzyjne", "grywalizacja", "projektowanie bez tarcia", "wzorce nawigacyjne", "przystępności",
-    "skeumorfizm", "minimalizm", "płaskie projektowanie", "projektowanie ruchu", "projektowanie responsywne",
-    "mobilne podejście (mobile-first)", "progresywne ulepszanie", "ciemne wzorce", "nakłanianie (nudging)",
-    "mikrointerakcje", "wskaźniki ładowania", "puste stany", "wdrażanie użytkownika (onboarding)",
-    "heurystyki użyteczności", "wezwanie do działania (CTA)", "przepływy użytkownika", "utrzymanie klienta",
-    "mapowanie usług", "projektowanie perswazyjne", "benchmarki użyteczności", "interakcja człowiek-komputer",
-    "rozszerzona rzeczywistość", "wirtualna rzeczywistość", "sztuczna inteligencja", "automatyzacja",
-    "UX chatbotów", "interfejsy konwersacyjne", "interfejsy multimodalne", "neurodesign",
-    "projektowanie oparte na zachowaniach", "projektowanie etyczne", "prywatność danych", "zgodność z RODO",
-    "UX trybu ciemnego", "interfejsy głosowe", "analiza sentymentu", "analiza predykcyjna", "UX writing",
-    "czytelność", "rozpoznawalność", "typografia", "współczynniki kontrastu", "komponenty UI",
-    "okna modalne", "opinie użytkowników", "mapy cieplne", "tokeny projektowe", "biblioteki komponentów",
-    "atomic design", "siatki CSS", "animacje UI", "projektowanie kontekstowe", "mobilna dostępność",
-    "analiza zadań", "metryki użyteczności", "empatia klienta", "analiza konkurencji", "wzorce ruchu oczu",
-    "współczynniki konwersji", "cyfrowa psychologia", "dowód społeczny", "kluczowe wskaźniki UX (UX KPIs)",
-    "mapowanie percepcji", "UX oparty na analizie danych", "badanie kontekstowe", "mapowanie empatii",
-    "hierarchia wizualna", "responsywna typografia", "projektowanie modułowe", "projektowanie uniwersalne",
-    "strategia treści", "przejście poznawcze", "lepka nawigacja", "zachowania podczas przewijania",
-    "interakcje dotykowe", "przejścia UI", "wskaźniki skupienia", "choroba lokomocyjna w VR",
-    "agnostycyzm urządzeniowy", "elementy grywalizacji", "testowanie dostępności", "semantyczny HTML",
-    "psychologia kolorów", "wielozmysłowy UX", "doświadczenie wielokanałowe", "mapy cieplne śledzenia wzroku"
-])
+download_nltk_resources()
 
 # Katalogi
 RAW_PROMPTS_DIR = "raw_prompts/"
@@ -53,20 +24,26 @@ PROCESSED_PROMPTS_DIR = "prompts/"
 AUTHOR = "Paweł Wolski"
 
 def extract_keywords(prompt_text):
-    """Analizuje treść promptu i wybiera słowa-klucze."""
-    words = re.findall(r'\b\w+\b', prompt_text.lower())  # Tokenizacja
-    keywords_found = {word.capitalize() for word in words if word in KEYWORDS}
+    """Analizuje treść promptu i wybiera 3 najczęstsze rzeczowniki występujące co najmniej 2 razy."""
+    words = word_tokenize(prompt_text.lower())
+    words = [word for word in words if word.isalnum() and word not in stopwords.words('english')]
+    tagged_words = pos_tag(words)
     
-    # Jeśli znaleziono mniej niż 3 słowa-klucze, dodaj losowe
-    while len(keywords_found) < 3:
-        keywords_found.add(random.choice(list(KEYWORDS)))
+    # Wybór tylko rzeczowników (NN, NNS, NNP, NNPS)
+    nouns = [word for word, tag in tagged_words if tag in ["NN", "NNS", "NNP", "NNPS"]]
     
-    return ", ".join(list(keywords_found)[:3])
+    # Liczenie wystąpień rzeczowników
+    word_counts = Counter(nouns)
+    
+    # Wybór 3 najczęstszych rzeczowników występujących co najmniej 2 razy
+    common_nouns = [word.capitalize() for word, count in word_counts.items() if count >= 2][:3]
+    
+    return ", ".join(common_nouns)
 
 def generate_filename():
     """Tworzy unikalną nazwę pliku na podstawie daty i losowego identyfikatora UUID."""
     date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-    unique_id = uuid.uuid4().hex[:8]  # Krótki unikalny identyfikator
+    unique_id = uuid.uuid4().hex[:8]
     return f"{date_str}-prompt-{unique_id}.md"
 
 def process_prompts():
@@ -85,12 +62,21 @@ def process_prompts():
         with open(filepath, "r", encoding="utf-8") as file:
             lines = file.readlines()
 
-        if len(lines) < 2:
-            print(f"Pominięto plik {filename}, ponieważ nie zawiera wymaganych danych.")
+        if not lines:
+            print(f"Pominięto pusty plik: {filename}")
             continue
 
-        model_ai = lines[0].strip()
-        prompt_text = "".join(lines[1:]).strip()
+        # Sprawdzenie, czy plik ma pierwszą linię z modelem AI
+        if len(lines) >= 2:
+            model_ai = lines[0].strip()
+            prompt_text = "".join(lines[1:]).strip()
+        else:
+            model_ai = "Nieznany model AI"
+            prompt_text = lines[0].strip()
+        
+        if not prompt_text:
+            print(f"Pominięto pusty plik: {filename}")
+            continue
         
         title = " ".join(prompt_text.split()[:5]) + "..."
         date_created = datetime.datetime.now().strftime("%d.%m.%Y")
