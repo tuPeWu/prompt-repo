@@ -36,9 +36,9 @@ jobs:
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
-          git pull --rebase
           git add prompts/
-          git commit -m "Automatycznie dodane prompty" || exit 0
+          git commit -m "Automatycznie dodane prompty" || echo "Brak zmian do commitowania"
+          git pull --rebase --autostash
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
