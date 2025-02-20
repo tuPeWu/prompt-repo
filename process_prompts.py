@@ -101,3 +101,8 @@ def process_prompts():
             os.remove(filepath)
         else:
             print(f"Błąd: Nie udało się zapisać pliku {new_filepath}")
+
+        print("### DEBUG: Sprawdzanie wygenerowanych plików ###")
+        print("Zawartość katalogu prompts/:")
+        for file in os.listdir(PROCESSED_PROMPTS_DIR):
+            print(file)
