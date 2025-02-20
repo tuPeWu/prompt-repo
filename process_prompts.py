@@ -96,5 +96,8 @@ def process_prompts():
             new_file.write(f"Słowa-klucze: {tags}\n")
             new_file.write(f"Link do repozytorium GitHub: {repo_link}\n")
 
-        os.remove(filepath)
-        print(f"Przetworzono: {filename} → {new_filepath}")
+        if os.path.exists(new_filepath):
+            print(f"Plik poprawnie zapisany: {new_filepath}")
+            os.remove(filepath)
+        else:
+            print(f"Błąd: Nie udało się zapisać pliku {new_filepath}")
