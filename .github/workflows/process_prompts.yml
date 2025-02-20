@@ -30,6 +30,16 @@ jobs:
 
       - name: Pobranie danych NLTK
         run: python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
+        
+      - name: Wymuszenie synchronizacji repozytorium
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git fetch origin
+          git reset --hard origin/main
+          git add prompts/
+          git commit -m "Automatycznie dodane prompty" || echo "Brak zmian do commitowania"
+          git push --force
 
       - name: Sprawdzenie zawartości raw_prompts
         run: |
