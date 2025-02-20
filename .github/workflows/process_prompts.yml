@@ -31,8 +31,10 @@ jobs:
           echo "🔍 Pliki w raw_prompts/"
           ls -la raw_prompts/
 
-      - name: Uruchomienie skryptu
-        run: python process_prompts.py
+      - name: Uruchomienie skryptu z debugowaniem
+        run: |
+          python process_prompts.py || echo "❌ Błąd w process_prompts.py"
+
 
       - name: Sprawdzenie wygenerowanych plików w prompts/
         run: |
