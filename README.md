@@ -5,12 +5,12 @@
 🎯 **Cel**
 Stworzenie w pełni zautomatyzowanego generatora bibliograficznego promptów ⚖️, który umożliwi łatwe archiwizowanie, udostępnianie i cytowanie promptów AI w kontekście naukowym i twórczym.
 
-🔹 **Jak to działa?**  
+📌 **Jak to działa?**  
 1. Umieść plik `.txt` w katalogu `raw_prompts/` (pierwsza linia – nazwa modelu AI, reszta – treść promptu).  
 2. Workflow GitHub Actions automatycznie przetworzy plik.  
 3. Wygenerowany opis promptu trafi do katalogu `prompts/` z unikalnym linkiem.  
 
-📌 **⚠️ Praca w toku!**  
+⚠️ **Praca w toku!**  
 Projekt eksploruje nierozpoznane jeszcze w pełni obszary i dąży do wypracowania **dobrych praktyk archiwizowania i udostępniania promptów AI** w kontekście badań naukowych i twórczości.  
 
 📢 **Twoja opinia jest ważna!**  
