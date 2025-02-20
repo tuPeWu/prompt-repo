@@ -44,4 +44,8 @@ jobs:
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
           git add prompts/
-          git commit -m "Automatycznie dodane prompty" || echo "❌ Brak zmian do
+          git commit -m "Automatycznie dodane prompty" || echo "❌ Brak zmian do commitowania"
+          git pull --rebase || echo "⚠️ Błąd podczas rebase, kontynuuję..."
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
