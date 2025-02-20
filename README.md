@@ -1,7 +1,10 @@
-# Prompt Repository 📚🚀  
+## Prompt Repository 📚🚀  
 
-**Prompt Repository** to repozytorium do automatycznego katalogowania i organizowania promptów używanych w badaniach naukowych i pracy twórczej z wykorzystaniem AI. Repozytorium umożliwia:  
+**Prompt Repository** to repozytorium do automatycznego katalogowania i organizowania promptów używanych w badaniach naukowych i pracy twórczej z wykorzystaniem AI. 
 
+🎯 Cel: Stworzenie w pełni zautomatyzowanego generatora bibliograficznego promptów ⚖️, który umożliwi łatwe archiwizowanie, udostępnianie i cytowanie promptów AI w kontekście naukowym i twórczym.
+
+📖 Repozytorium umożliwia:
 ✅ **Automatyczne generowanie metadanych** – każdy zapisany prompt otrzymuje unikalny identyfikator, datę wygenerowania, słowa kluczowe oraz link do repozytorium.  
 ✅ **Łatwe przeszukiwanie i udostępnianie** – prompty są przechowywane w katalogu `prompts/`, a ich linki mogą być wykorzystywane w publikacjach i pracach naukowych.  
 ✅ **Obsługę wielu modeli AI** – każdy prompt zawiera informację o wykorzystanym modelu AI.  
@@ -19,5 +22,5 @@ Projekt eksploruje nierozpoznane jeszcze w pełni obszary i dąży do wypracowan
 Repozytorium można swobodnie eksplorować i wykorzystywać, ale zachęcamy użytkowników do dzielenia się **uwagami, spostrzeżeniami i sugestiami dotyczącymi dalszego rozwoju**. Feedback pomoże usprawnić system i dostosować go do realnych potrzeb społeczności!  
 
 ✉️ **Kontakt:**  
-📧 p.wolski.ux@akademiasztuki.eu  
-📧 pawel.wolski@usz.edu.pl  
+p.wolski.ux@akademiasztuki.eu  
+pawel.wolski@usz.edu.pl  
