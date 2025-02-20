@@ -1,0 +1,2 @@
+chatGPT
+Wybieram opcję utworzenia raw_prompts na GitHub; opisz całą procedurę tworzenia repozytorium na github od początku. Pomiń krok twoirrzenia profilu na Github, potem jednak wszystko krok po kroku - od tworzenia repozytorium na GitHub, przez katalog z raw+prompts, po automatyzację za pomocą Pythona. W kodzie Pythona zmień mechanizm tagowania: niechaj algorytm przeszukuje tekst pełnego promptu w celu znalezienia tagó.
