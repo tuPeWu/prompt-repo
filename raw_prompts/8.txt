@@ -1,0 +1,2 @@
+chatGPT
+Chcę skorzystać z GitHub. Wpisy będą miały następującą strukturę: 1Tytuł: Krótka nazwa promptu 2Pełna treść: Oryginalny prompt 3Data utworzenia: DD.MM.YYYY 4Tagi: trzy hasła 5Link do repozytorium: Automatycznie generowany. Chcę, aby do mnie należało jedynie wklejenie promptu [2], natomiast elementy 1,3,4,5 mają być generowane automatycznie. Jak to zrobić?
