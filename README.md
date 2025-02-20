@@ -21,3 +21,8 @@ Repozytorium można swobodnie eksplorować i wykorzystywać ⚖️, ale zachęca
 ✉️ **Kontakt:**  
 p.wolski.ux@akademiasztuki.eu  
 pawel.wolski@usz.edu.pl  
+
+
+**INFO**
+Projekt powstał przy wsparciu AI (chatGPT, STORM, Gemini).
+Najważniejsze prompty to:
