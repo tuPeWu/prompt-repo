@@ -1,3 +1,5 @@
+print("🔍 Skrypt process_prompts.py rozpoczął działanie...")
+
 import os
 import datetime
 import uuid
@@ -106,3 +108,4 @@ def process_prompts():
         print("Zawartość katalogu prompts/:")
         for file in os.listdir(PROCESSED_PROMPTS_DIR):
             print(file)
+print("✅ Skrypt process_prompts.py zakończył działanie!")
