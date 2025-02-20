@@ -1,5 +1,4 @@
-# prompt-repo
-## Prompt Repository 📚🚀  
+# Prompt Repository 📚🚀  
 
 **Prompt Repository** to repozytorium do automatycznego katalogowania i organizowania promptów używanych w badaniach naukowych i pracy twórczej z wykorzystaniem AI. Repozytorium umożliwia:  
 
