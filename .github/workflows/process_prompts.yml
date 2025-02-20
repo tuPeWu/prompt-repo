@@ -31,11 +31,13 @@ jobs:
           echo "🔍 Pliki w raw_prompts/"
           ls -la raw_prompts/
 
+     
       - name: Debugowanie błędu w process_prompts.py
         run: |
           echo "🔍 Uruchamiam skrypt process_prompts.py"
-          python process_prompts.py || echo "❌ Błąd w process_prompts.py"
-
+          python process_prompts.py > process_prompts.log 2>&1 || echo "❌ Błąd w process_prompts.py"
+          cat process_prompts.log
+          
       - name: Uruchomienie skryptu z debugowaniem
         run: |
           python process_prompts.py || echo "❌ Błąd w process_prompts.py"
