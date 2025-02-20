@@ -5,6 +5,7 @@
 🎯 Cel: Stworzenie w pełni zautomatyzowanego generatora bibliograficznego promptów ⚖️, który umożliwi łatwe archiwizowanie, udostępnianie i cytowanie promptów AI w kontekście naukowym i twórczym.
 
 📖 Repozytorium umożliwia:
+
 ✅ **Automatyczne generowanie metadanych** – każdy zapisany prompt otrzymuje unikalny identyfikator, datę wygenerowania, słowa kluczowe oraz link do repozytorium.  
 ✅ **Łatwe przeszukiwanie i udostępnianie** – prompty są przechowywane w katalogu `prompts/`, a ich linki mogą być wykorzystywane w publikacjach i pracach naukowych.  
 ✅ **Obsługę wielu modeli AI** – każdy prompt zawiera informację o wykorzystanym modelu AI.  
