@@ -2,9 +2,11 @@
 
 **Prompt Repository** to repozytorium do automatycznego katalogowania i organizowania promptów używanych w badaniach naukowych i pracy twórczej z wykorzystaniem AI. 
 
-🎯 Cel: Stworzenie w pełni zautomatyzowanego generatora bibliograficznego promptów ⚖️, który umożliwi łatwe archiwizowanie, udostępnianie i cytowanie promptów AI w kontekście naukowym i twórczym.
+🎯 **Cel**
 
-📖 Repozytorium umożliwia:
+Stworzenie w pełni zautomatyzowanego generatora bibliograficznego promptów ⚖️, który umożliwi łatwe archiwizowanie, udostępnianie i cytowanie promptów AI w kontekście naukowym i twórczym.
+
+📖 **Repozytorium umożliwia**:
 
 ✅ **Automatyczne generowanie metadanych** – każdy zapisany prompt otrzymuje unikalny identyfikator, datę wygenerowania, słowa kluczowe oraz link do repozytorium.  
 ✅ **Łatwe przeszukiwanie i udostępnianie** – prompty są przechowywane w katalogu `prompts/`, a ich linki mogą być wykorzystywane w publikacjach i pracach naukowych.  
