@@ -16,49 +16,32 @@ jobs:
       - name: Pobranie repozytorium
         uses: actions/checkout@v3
         with:
-           fetch-depth: 0
+          fetch-depth: 0
 
-      - name: Instalacja Pythona
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Instalacja wymaganych pakietów
+      - name: Instalacja Pythona i wymaganych pakietów
         run: |
           pip install --upgrade pip
           pip install nltk
 
       - name: Pobranie danych NLTK
         run: python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
-        
-      - name: Wymuszenie synchronizacji repozytorium
-        run: |
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "actions@github.com"
-          git fetch origin
-          git reset --hard origin/main
-          git add prompts/
-          git commit -m "Automatycznie dodane prompty" || echo "Brak zmian do commitowania"
-          git push --force
 
-      - name: Sprawdzenie zawartości raw_prompts
+      - name: Sprawdzenie zawartości katalogu raw_prompts/
         run: |
-          echo "Pliki w raw_prompts:"
+          echo "🔍 Pliki w raw_prompts/"
           ls -la raw_prompts/
 
       - name: Uruchomienie skryptu
         run: python process_prompts.py
 
-      - name: Commit zmian
+      - name: Sprawdzenie wygenerowanych plików w prompts/
+        run: |
+          echo "📂 Sprawdzenie zawartości prompts/:"
+          ls -la prompts/
+
+      - name: Commitowanie i push zmian
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
           git add prompts/
-          git commit -m "Automatycznie dodane prompty" || echo "Brak zmian do commitowania"
-           # Schowanie niezapisanych zmian, jeśli istnieją
-          git stash || echo "Brak zmian do schowania"
-          git pull --rebase || echo "Błąd podczas rebase, kontynuuję..."
-          git stash pop || echo "Brak zmian do odtworzenia"
-          git push --force
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git commit -m "Automatycznie dodane prompty" || echo "❌ Brak zmian do
